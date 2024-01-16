@@ -35,6 +35,8 @@ async function handleUserSignup(req, res) {
         password: body.password,
         mobile_number:body.mobile_number,
         Educational_Qualification:body.Educational_Qualification,
+        role:body.role,
+        gender:body.gender,
         emailVerified:"No",
     }
     
@@ -57,7 +59,13 @@ async function handleUserSignup(req, res) {
     }
     if(!user.Educational_Qualification){
         return res.status(400).json("Please mention valid Educational Qualification");
-    }    
+    } 
+    if(!user.role){
+        return res.status(400).json("Please enter your role");
+    } 
+    if(!user.gender){
+        return res.status(400).json("Please enter gender");
+    }  
     bcrypt.genSalt(saltRounds, (saltErr, salt) => {
         if (saltErr) {
             res.status(500).json("Internal server error");
@@ -74,26 +82,58 @@ async function handleUserSignup(req, res) {
                         //console.log("URL:",process.env.URL);
                         //console.log("email:",user.email);
                         const result = await User.create(user);
-                        send_mail_registration(user.email,user.name);
                         send_mail_verification(user.email,process.env.URL);
 
                         const obj={name: body.name,
                             email: body.email,
                             mobile_number:body.mobile_number,
                             Educational_Qualification:body.Educational_Qualification,
+                            role:body.role,
                             emailVerified:"No",
                         }
 
-                        return res.json({message:"Signup successfull",result:obj});
+                        return res.json({message:"Details entered successfully",result:obj});
 
                     } catch (dbError) {
                         res.status(500).json("Internal server error");
+                        console.log(dbError);
                     }
                 }
             });
         }
     });
 };
+
+async function enterField(req,res){
+    try{
+
+        const email=req.params.email;
+        if(!email){
+            return res.status(500).json("Internal server error");
+        }
+        
+        const user=await User.findOne({"email":email});
+        if(!user){
+            return res.status(400).json("Kindly enter previous details first");
+        }
+        if(user.emailVerified!=='Yes'){
+            return res.status(400).json("Please verify your email first");
+        }
+        const body=req.body;
+        const field=body.field;
+        if(!field){
+            return res.status(400).json("Please select the desired field");
+        }
+        user.field=field;
+        await user.save();
+        send_mail_registration(user.email,user.name);
+
+        return res.status(200).json({message:"Signup completed successfully",field:field});
+    }catch(error){
+        console.error(error);
+        res.status(500).json("Internal server error");
+    }
+}
 
 
 async function verifyMail(req,res){
@@ -254,4 +294,4 @@ async function newPassword(req,res){
 
 
 
-module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword};
+module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField};

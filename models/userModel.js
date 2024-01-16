@@ -16,6 +16,11 @@ const userSchema=new mongoose.Schema({
         required:true,
         unique:false,
     },
+    gender:{
+        type:String,
+        required:true,
+        enum:["male","female"],
+    },
     mobile_number:{
         type:String,
         required:true,
@@ -24,14 +29,27 @@ const userSchema=new mongoose.Schema({
     Educational_Qualification:{
         type:String,
         required:true,
-        enum:['8th Standard','10th Standard','12th Standard','Undergraduate','Postgraduate'],
+        enum:['8th Standard','10th Standard','12th Standard','Undergraduate','Postgraduate','PhD'],
         default:'8th Standard',
+    },
+    role:{
+        type:String,
+        required:true,
+        enum:["Teacher","Learner"],
+        default:"Learner",
     },
     otp:{
         type: String,
         required: false,
         default: 0,
       },
+    field:{
+        type:String,
+        required:false,
+        enum:["Cooking and Baking","Battery charging, maintenance and testing","Bike and Car Mechanic","Sewing,Stitching and Tailoring","Horticulture and Cut Flower Techniques","Basic Computer Fundamentals","Pickle and Jelly Making"],
+        default:"Basic Computer Fundamentals",
+        unique:false,
+    },
     emailVerified:{
         type:String,
         required:false,

@@ -6,7 +6,10 @@ function setUser(user){
     return jwt.sign({
         name:user.name,
         email:user.email,
-        Educational_Qualification:user.Educational_Qualification,   
+        Educational_Qualification:user.Educational_Qualification, 
+        role:user.role,
+        gender:user.gender,
+        field:user.field,  
     },jwtSecret); 
 };
 
