@@ -17,14 +17,15 @@ app.use(cookieParser());
 
 //Requiring routes from router
 const userRoutes=require("./routes/userRoutes.js");
+const courseRoutes=require("./routes/courseRoutes.js");
+const imageRoutes=require("./routes/imageRoutes.js");
 
 
 
 //Specifying routes' name
 app.use("/user",userRoutes);
-
-
-
+app.use("/course",courseRoutes);
+app.use("/image",imageRoutes);
 
 
 connectMongoDb(process.env.MONGO_URL)

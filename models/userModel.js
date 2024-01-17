@@ -32,6 +32,9 @@ const userSchema=new mongoose.Schema({
         enum:['8th Standard','10th Standard','12th Standard','Undergraduate','Postgraduate','PhD'],
         default:'8th Standard',
     },
+    photo:{
+        type:Buffer,
+    },
     role:{
         type:String,
         required:true,
@@ -46,7 +49,7 @@ const userSchema=new mongoose.Schema({
     field:{
         type:String,
         required:false,
-        enum:["Cooking and Baking","Battery charging, maintenance and testing","Bike and Car Mechanic","Sewing,Stitching and Tailoring","Horticulture and Cut Flower Techniques","Basic Computer Fundamentals","Pickle and Jelly Making"],
+        enum:["Cooking and Baking","Battery charging, maintenance and testing","Bike and Car Mechanic","Sewing,Stitching and Tailoring","Horticulture and Cut Flower Techniques","Basic Computer Fundamentals","Fruit and Vegetable Preservation"],
         default:"Basic Computer Fundamentals",
         unique:false,
     },
