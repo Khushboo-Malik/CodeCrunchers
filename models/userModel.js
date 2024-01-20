@@ -9,7 +9,6 @@ const userSchema=new mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique:true,
     },
     password:{
         type:String,
@@ -24,7 +23,6 @@ const userSchema=new mongoose.Schema({
     mobile_number:{
         type:String,
         required:true,
-        unique:true,
     },                                   
     Educational_Qualification:{
         type:String,
