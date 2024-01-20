@@ -39,10 +39,14 @@ async function handleUserSignup(req, res) {
         gender:body.gender,
         emailVerified:"No",
     }
-    
+    const result1=await User.findOne({"mobile_number":user.mobile_number});
+    if(result1){
+        return res.status(400).json("Mobile Number already exists");
+    }
+
     const result=await User.findOne({"email":user.email});
     if(result){
-        return res.json("Email already exists");
+        return res.status(400).json("Email already exists");
     };
 
     if(!user.password){
