@@ -331,7 +331,7 @@ async function deleteUser(req,res){
         if(!email){
             return res.status(400).json("Internal server error");
         }
-        const user=findOne({email:"email"});
+        const user=User.findOne({email:"email"});
         if(!user){
             return res.status(400).json("No such user exists");
         }
