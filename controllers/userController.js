@@ -144,6 +144,9 @@ async function verifyMail(req,res){
     try{
         const{Email}=req.params;
         const userVerify=await User.findOne({"email":Email});
+        if(!userVerify){
+            return res.status(400).json("User with such email ID not found");
+        }
         userVerify.emailVerified="Yes";
         await userVerify.save();
         return res.json("Email verified successfully");
