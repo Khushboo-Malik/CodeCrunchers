@@ -86,7 +86,7 @@ async function handleUserSignup(req, res) {
                         //console.log("URL:",process.env.URL);
                         //console.log("email:",user.email);
                         const result = await User.create(user);
-                        send_mail_verification(user.email,process.env.URL);
+                        send_mail_verification(user.email,/*process.env.URL*/);
 
                         const obj={name: body.name,
                             email: body.email,
