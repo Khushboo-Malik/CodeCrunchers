@@ -22,7 +22,7 @@ router.post("/verifyOTP/:email",verifyOTP);
 router.post("/newPassword/:email",newPassword);
 router.post("/enterField/:email",enterField);
 router.get("/showDetails/:email",showDetails);
-router.delete("/deleteUser/:email",showDetails);
+router.delete("/deleteUser/:email",deleteUser);
 
 
 
