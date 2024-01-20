@@ -31,4 +31,4 @@ app.use("/image",imageRoutes);
 connectMongoDb(process.env.MONGO_URL)
   .then(() => console.log("MongoDB Connected!"));
 
-app.listen(PORT, () => console.log("Server Started!"));
+app.listen(PORT, () => console.log(`Server Started at PORT ${PORT}!`));

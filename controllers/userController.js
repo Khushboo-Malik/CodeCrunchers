@@ -292,6 +292,32 @@ async function newPassword(req,res){
     }
 }
 
+async function showDetails(req,res){
+    try{
+        const email=req.params.email;
+        if(!email){
+            return res.status(400).json("Internal server error");
+        }
+        const user=await User.findOne({email});
+        if(!user){
+            return res.status(400).json("Internal server error");
+        }
+        const obj={
+            name:user.name,
+            email:user.email,
+            gender:user.gender,
+            mobile_number:user.mobile_number,
+            Educational_Qualification:user.Educational_Qualification,
+            role:user.role,
+            field:user.field,
+        }
+        return res.status(200).json({message:"Profile details successfully shown",details:obj})
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });   
+    }
+}
 
 
-module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField};
+
+module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField,showDetails};

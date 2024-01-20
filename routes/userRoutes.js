@@ -8,6 +8,7 @@ const resetPassword = require("../controllers/userController.js").resetPassword;
 const verifyOTP = require("../controllers/userController.js").verifyOTP;
 const newPassword = require("../controllers/userController.js").newPassword;
 const enterField = require("../controllers/userController.js").enterField;
+const showDetails = require("../controllers/userController.js").showDetails;
 
 
 
@@ -19,6 +20,7 @@ router.post("/resetPassword",resetPassword);
 router.post("/verifyOTP/:email",verifyOTP);
 router.post("/newPassword/:email",newPassword);
 router.post("/enterField/:email",enterField);
+router.get("/showDetails/:email",showDetails);
 
 
 
