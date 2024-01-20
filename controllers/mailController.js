@@ -49,7 +49,7 @@ function get_html_message(name) {
     return `<h3>${name}! You have successfully accessed your account!</h3>`;
 }
 
-async function send_mail_verification(Email,/*URL*/) {
+async function send_mail_verification(Email,URL) {
     try {
         // Check if the access token is expired
         if (OAuth2_client.isTokenExpiring()) {
@@ -74,7 +74,7 @@ async function send_mail_verification(Email,/*URL*/) {
             from: `Education<${"mail.khushboomalik@gmail.com"}`,
             to: Email,
             subject: "Email Verification",
-            html: get_html_message_verification(Email,/*URL*/),
+            html: get_html_message_verification(Email,URL),
         };
 
         const result = await transport.sendMail(mail_options);
@@ -85,10 +85,10 @@ async function send_mail_verification(Email,/*URL*/) {
     }
 }
 
-function get_html_message_verification(Email,/*URL*/) {
+function get_html_message_verification(Email,URL) {
     return `
     <h3>Click on this link to verify your email address:<br>
-    <p style="color:red; font-size:200%;"><a href="https://codecrunchers.anaskhan.site/user/verifyEmail/${Email}">Verify mail</a></p></h3>`
+    <p style="color:red; font-size:200%;"><a href="${URL}/user/verifyEmail/${Email}">Verify mail</a></p></h3>`
 };
 
 async function send_mail_OTP(Email,OTP) {

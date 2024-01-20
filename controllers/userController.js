@@ -86,7 +86,7 @@ async function handleUserSignup(req, res) {
                         //console.log("URL:",process.env.URL);
                         //console.log("email:",user.email);
                         const result = await User.create(user);
-                        send_mail_verification(user.email,/*process.env.URL*/);
+                        send_mail_verification(user.email,process.env.URL);
 
                         const obj={name: body.name,
                             email: body.email,
@@ -325,6 +325,24 @@ async function showDetails(req,res){
     }
 }
 
+async function deleteUser(req,res){
+    try{
+        const email=req.params.email;
+        if(!email){
+            return res.status(400).json("Internal server error");
+        }
+        const user=findOne({email:"email"});
+        if(!user){
+            return res.status(400).json("No such user exists");
+        }
+        const deleted_user=await User.findOneAndDelete({email:"email"});
+        return res.status(200).json({message:"User deleted successfully!"});
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
 
 
-module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField,showDetails};
+
+module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField,showDetails,deleteUser};
