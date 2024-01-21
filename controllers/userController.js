@@ -345,4 +345,6 @@ async function deleteUser(req,res){
 
 
 
+
+
 module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField,showDetails,deleteUser};
