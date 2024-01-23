@@ -45,9 +45,62 @@ async function createTest(req, res) {
     }
 };
 
+async function showTest(req,res){
+    try{
+        const stage_name=req.params.stage_name;
+        if(!stage_name){
+            return res.status(400).json("Internal server error");
+        }
+        const test= await Test.findOne({stage_name});
+        if(!test){
+            return res.status(400).json("No such test found");
+        }
+        return res.status(200).json({msg:"Test retrieved successfully",test:test.questions})
+
+    }catch(error){
+        console.error(error);
+        res.status(500).json("Internal server error");
+    }
+}
+
+async function evaluateTest(req,res){
+    try{
+        const stage_name=req.params.stage_name;
+        if(!stage_name){
+            return res.status.json("Internal server error");
+        };
+        const test= await Test.findOne({stage_name});
+        if(!test){
+            return res.status(400).json("No such stage found");
+        }
+        const{answers}=body;
+        if(!answers||!Array.isArray(answers)){
+            return res.status(400).json("Invalid input");
+        }
+        let marks=0;
+        for(let i=0;i<answers.length/*()*/ && i<test.answer.length/*()*/;i++){
+            if(answers[i]===test.answer[i]){
+                marks++;
+            }
+        }
+        test.marks_scored=marks;
+        await test.save();
+        let status="Fail";
+
+        if(marks>=10){
+            status="Pass";
+        }
+        return res.status(200).json({msg:"Successfully evalauted test",score:`${marks}/15`,status:status});
+
+    }catch(error){
+        console.error(error);
+        res.status(500).json("Internal server error");
+    }
+}
 
 
-module.exports={createTest};
+
+module.exports={createTest,showTest,evaluateTest};
 //test create API-post
 //SHOW test questions API-get
 //input answers api-post

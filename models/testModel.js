@@ -18,6 +18,10 @@ const testSchema=new mongoose.Schema({
     },
     questions:[questionSchema],
     answer:[answerSchema],
+    marks_scored:{
+        type:Number,
+        default:0,
+    }
 });
 
 
