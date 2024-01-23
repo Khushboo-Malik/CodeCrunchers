@@ -67,13 +67,13 @@ async function evaluateTest(req,res){
     try{
         const stage_name=req.params.stage_name;
         if(!stage_name){
-            return res.status.json("Internal server error");
+            return res.status(500).json("Internal server error");
         };
         const test= await Test.findOne({stage_name});
         if(!test){
             return res.status(400).json("No such stage found");
         }
-        const{answers}=body;
+        const{answers}=req.body;
         if(!answers||!Array.isArray(answers)){
             return res.status(400).json("Invalid input");
         }
