@@ -18,13 +18,6 @@ const testSchema=new mongoose.Schema({
     },
     questions:[questionSchema],
     answer:[answerSchema],
-    max_marks:{
-        type:String,
-    },
-    score:{
-        type:String,
-        default:0,
-    }
 });
 
 

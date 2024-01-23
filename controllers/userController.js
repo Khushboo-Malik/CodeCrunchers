@@ -170,7 +170,6 @@ async function verifyMail(req,res){
     if(!email){
         return res.status(400).json("Please enter email");
     }
-
     
         const user = await User.findOne({ "email":email });
         const is_mail_verified=user.emailVerified;

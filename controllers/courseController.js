@@ -3,13 +3,12 @@ const mongoose=require("mongoose");
 const { Subtopic, Topic, Stage, Field } = require('../models/courseModel.js');
 const { texttospeech } = require("googleapis/build/src/apis/texttospeech/index.js");
 
-async function addStages(req,res){
+/*async function addStages(req,res){
     try{
 
         const fieldName = req.params.field;
         const { stages } = req.body;
     
-        
         if (!fieldName || !stages || !Array.isArray(stages)) {
           return res.status(400).json({ error: 'Invalid request data' });
         }
@@ -28,7 +27,32 @@ async function addStages(req,res){
         res.status(500).json("Internal server error");
         console.log(error);
     }
-};
+};*/
+async function addStages(req, res) {
+  try {
+    const fieldName = req.params.field;
+    const { stages } = req.body;
+
+    if (!fieldName || !stages || !Array.isArray(stages)) {
+      return res.status(400).json({ error: 'Invalid request data' });
+    }
+
+    let field = await Field.findOne({ name: fieldName });
+    if (!field) {
+      field = new Field({ name: fieldName, stages: [], is_unlocked: false });
+    }
+
+    field.stages.push(...stages);
+    field.is_unlocked = false; // Ensure is_unlocked is set to false
+
+    await field.save();
+
+    res.status(201).json({ message: 'Courses added successfully', data: field });
+  } catch (error) {
+    res.status(500).json("Internal server error");
+    console.log(error);
+  }
+}
 
 async function addContent(req,res){
     try{

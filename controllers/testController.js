@@ -13,19 +13,25 @@ async function createTest(req, res) {
             return res.status(400).json("Internal server error");
         }
 
-        const { max_marks, questions, answers } = body;
+        const { questions, answers } = body;
 
-        if (!max_marks || !questions || !answers) {
+        if (!questions || !answers) {
             return res.status(400).json("Missing required input");
         }
 
+        if (questions.length !== answers.length) {
+            return res.status(400).json("Number of questions and answers should be the same");
+        }
+
+        if (!(questions.length === 15) || !(answers.length === 15)) {
+            return res.status(400).json("Test can only be made of 15 marks");
+        }
         const questionModels = questions.map(questionText => new Question({ Questions: questionText }));
 
         const answerModels = answers.map(answerText => new Answer({ Answers: answerText }));
 
         const test = new Test({
             stage_name: stage_name,
-            max_marks: max_marks,
             questions: questionModels,
             answer: answerModels,
         });

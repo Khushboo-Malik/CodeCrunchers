@@ -21,12 +21,14 @@ const stageSchema = new mongoose.Schema({
   topics: [topicSchema],
 });
 
-// Define field schema
 const fieldSchema = new mongoose.Schema({
   name: { type: String, required: true },
   stages: [stageSchema],
+  is_unlocked: {
+    type: Boolean, 
+    default: false,
+  },
 });
-
 // Create models
 const Subtopic = mongoose.model('Subtopic', subtopicSchema);
 const Topic = mongoose.model('Topic', topicSchema);
