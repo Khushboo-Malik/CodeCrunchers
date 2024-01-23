@@ -7,6 +7,6 @@ const evaluateTest= require("../controllers/testController.js").evaluateTest;
 
 router.post("/createTest/:stage_name",addTest);
 router.get("/showTest/:stage_name",showTest);
-router.get("/evaluateTest/:stage_name",evaluateTest);
+router.post("/evaluateTest/:stage_name",evaluateTest);
 
 module.exports=router;
