@@ -33,7 +33,7 @@ async function createTest(req, res) {
         const test = new Test({
             stage_name: stage_name,
             questions: questionModels,
-            answer: answerModels,
+            answers: answerModels,
         });
 
         await test.save();
@@ -74,15 +74,18 @@ async function evaluateTest(req,res){
             return res.status(400).json("No such stage found");
         }
         const{answers}=req.body;
-        if(!answers||!Array.isArray(answers)){
+        if(!answers||!Array.isArray(answers)/*||answers.length !== test.answers.length*/){
             return res.status(400).json("Invalid input");
         }
         let marks=0;
-        for(let i=0;i<answers.length/*()*/ && i<test.answer.length/*()*/;i++){
-            if(answers[i]===test.answer[i]){
+        for(let i=0;i<answers.length;i++){
+            console.log("Saved Answer:",test.answers[i].Answers);
+            console.log("Obtained answer:",answers[i]);
+            if(answers[i]==test.answers[i].Answers){
                 marks++;
             }
         }
+        console.log("final marks:",marks);
         test.marks_scored=marks;
         await test.save();
         let status="Fail";

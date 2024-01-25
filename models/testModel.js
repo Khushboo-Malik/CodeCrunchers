@@ -17,7 +17,7 @@ const testSchema=new mongoose.Schema({
         type:String,
     },
     questions:[questionSchema],
-    answer:[answerSchema],
+    answers:[answerSchema],
     marks_scored:{
         type:Number,
         default:0,
