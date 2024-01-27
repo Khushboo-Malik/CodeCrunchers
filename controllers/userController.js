@@ -332,7 +332,7 @@ async function deleteUser(req,res){
         if(!email){
             return res.status(400).json("Internal server error");
         }
-        const user=User.findOne({"email":email});
+        const user=User.findOne({email:email});
         if(!user){
             return res.status(400).json("No such user exists");
         }
@@ -352,7 +352,7 @@ async function isMailVerified(req,res){
         }
         const user=await User.findOne({email:"email"});
         if(!user){
-            return res.status(400),json("No such user verified");
+            return res.status(400).json("No such user found");
         }
         const status=user.isVerified;
         console.log("status:",status);
