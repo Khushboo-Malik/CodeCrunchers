@@ -10,6 +10,7 @@ const newPassword = require("../controllers/userController.js").newPassword;
 const enterField = require("../controllers/userController.js").enterField;
 const showDetails = require("../controllers/userController.js").showDetails;
 const deleteUser = require("../controllers/userController.js").deleteUser;
+const isMailVerified = require("../controllers/userController.js").isMailVerified;
 
 
 
@@ -23,6 +24,7 @@ router.post("/newPassword/:email",newPassword);
 router.post("/enterField/:email",enterField);
 router.get("/showDetails/:email",showDetails);
 router.delete("/deleteUser/:email",deleteUser);
+router.get("/isMailVerified/:email",isMailVerified);
 
 
 

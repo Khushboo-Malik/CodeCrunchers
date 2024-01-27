@@ -344,8 +344,27 @@ async function deleteUser(req,res){
     }
 }
 
+async function isMailVerified(req,res){
+    try{
+        const email=req.params.email;
+        if(!email){
+            return res.status(400).json("Internal server error");
+        }
+        const user=await User.findOne({email:"email"});
+        if(!user){
+            return res.status(400),json("No such user verified");
+        }
+        const status=user.isVerified;
+        console.log("status:",status);
+        return res.status(200).json({msg:"Success",status:status});
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
 
 
 
 
-module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField,showDetails,deleteUser};
+
+module.exports={handleUserSignup,verifyMail,handleUserLogin,resetPassword,verifyOTP,newPassword,enterField,showDetails,deleteUser,isMailVerified};
