@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const field_router = express.Router();
 
 const addNewFields= require("../controllers/fieldController.js").addNewFields;
 const showAllFields = require("../controllers/fieldController.js").showAllFields;
@@ -9,4 +9,4 @@ router.get("/showAllFields",showAllFields);
 
 
 
-module.exports=router;
+module.exports=field_router;
