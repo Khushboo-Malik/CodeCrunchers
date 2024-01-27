@@ -162,7 +162,7 @@ async function verifyMail(req,res){
     const body=req.body;
     const email=body.email;
     const password=body.password;
-
+        
     if(!password){
         return res.status(400).json("Please enter password");
     }
@@ -172,6 +172,8 @@ async function verifyMail(req,res){
     }
     
         const user = await User.findOne({ "email":email });
+        const role=user.role;
+        console.log("role:",role);
         const is_mail_verified=user.emailVerified;
         if(is_mail_verified==="No"){
             return res.status(400).json("Email not verified");
@@ -190,7 +192,7 @@ async function verifyMail(req,res){
             user.save();
             const token = setUser(user);
             
-            return res.json({msg:"Login successfull",token:token}); 
+            return res.json({msg:"Login successfull",role:role,token:token}); 
             
         } else {
             res.status(401).json("Incorrect Password");
