@@ -350,11 +350,11 @@ async function isMailVerified(req,res){
         if(!email){
             return res.status(400).json("Internal server error");
         }
-        const user=await User.findOne({email:"email"});
+        const user=await User.findOne({email:email});
         if(!user){
             return res.status(400).json("No such user found");
         }
-        const status=user.isVerified;
+        const status=user.emailVerified;
         console.log("status:",status);
         return res.status(200).json({msg:"Success",status:status});
     }catch(error){
