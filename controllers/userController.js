@@ -221,8 +221,10 @@ async function resetPassword(req,res){
         return res.status(404).json({ error: 'No such user found' });
     }
     const otp = generateOTP();
+    //const otpExpiration=new Date();
+    //otpExpiration.setMinutes(otpExpiration.getMinutes()+10);
 
-    await User.findOneAndUpdate({ email }, { otp } /*{ new: true }*/);
+    await User.findOneAndUpdate({ email }, { otp,otpExpiration } /*{ new: true }*/);
 
     send_mail_OTP(email,otp);
     return res.status(200).json("Mail sent successfully!");
@@ -249,7 +251,8 @@ async function verifyOTP(req,res){
     if(!user){
         return res.status(400).json("No such user found");
     }
-    const true_otp=user.otp;
+    //const true_otp=user.otp;
+
     console.log("true_otp:",true_otp);
     if(!true_otp){
         return res.status(400).json("Please enter your mail to recieve OTP");
