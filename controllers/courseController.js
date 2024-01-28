@@ -215,8 +215,61 @@ async function getStages(req, res) {
     }
   }
   
+  async function addAllSubtopicsToTopic(req, res) {
+    try {
+      const topicName = req.params.topicname;
+      const subtopicsArray = req.body.subtopics;
   
+      if (!topicName || !subtopicsArray || !Array.isArray(subtopicsArray)) {
+        return res.status(400).json("Invalid request format");
+      }
   
-
-
-module.exports={addStages,addContent,getStages,addCourseName,addAllStages};
+      // Convert the array of strings into an array of objects
+      const mappedSubtopics = subtopicsArray.map((subtopicName) => ({
+        name: subtopicName,
+        text: "", // Customize this based on your schema
+      }));
+  
+      // Create an object with the name field and subtopics array
+      const topicData = {
+        name: topicName,
+        subtopics: mappedSubtopics,
+      };
+  
+      // Assuming you have a model named 'Topic' for the topicSchema
+      await Topic.updateOne({ name: topicName }, topicData, { upsert: true });
+  
+      res.status(200).json("Topic name and subtopics added successfully");
+    } catch (error) {
+      res.status(500).json("Internal server error");
+      console.error(error);
+    }
+  }
+  
+  async function addSubtopicText(req, res) {
+    try {
+      const subtopicName = req.params.subtopicname;
+      const subtopicText = req.body.subtopicText;
+  
+      if (!subtopicName || !subtopicText) {
+        return res.status(400).json("Invalid request format");
+      }
+  
+      // Assuming you have a model named 'Subtopic' for the subtopicSchema
+      const subtopic = await Subtopic.findOneAndUpdate(
+        { name: subtopicName },
+        { $set: { text: subtopicText } },
+        { new: true, upsert: true }
+      );
+  
+      res.status(200).json({
+        message: "Subtopic text added successfully",
+        subtopic: subtopic,
+      });
+    } catch (error) {
+      res.status(500).json("Internal server error");
+      console.error(error);
+    }
+  }
+  
+module.exports={addStages,addContent,getStages,addCourseName,addAllStages,addAllSubtopicsToTopic,addSubtopicText};
