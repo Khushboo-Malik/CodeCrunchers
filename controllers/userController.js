@@ -95,9 +95,8 @@ async function handleUserSignup(req, res) {
                             role:body.role,
                             emailVerified:"No",
                         }
-
+                        send_mail_registration(obj.email,obj.name);
                         return res.json({message:"Details entered successfully",result:obj});
-
                     } catch (dbError) {
                         res.status(500).json("Internal server error");
                         console.log(dbError);
@@ -130,9 +129,9 @@ async function enterField(req,res){
         }
         user.field=field;
         await user.save();
-        send_mail_registration(user.email,user.name);
+        
 
-        return res.status(200).json({message:"Signup completed successfully",field:field});
+        return res.status(200).json({message:"Field selection completed successfully",field:field});
     }catch(error){
         console.error(error);
         res.status(500).json("Internal server error");
@@ -173,6 +172,12 @@ async function verifyMail(req,res){
     
         const user = await User.findOne({ "email":email });
         const role=user.role;
+        let field;
+        if(role=="Learner"){
+             field=user.field;
+        }else{
+            field="N/A";
+        }
         console.log("role:",role);
         const is_mail_verified=user.emailVerified;
         if(is_mail_verified==="No"){
@@ -192,7 +197,7 @@ async function verifyMail(req,res){
             user.save();
             const token = setUser(user);
             
-            return res.json({msg:"Login successfull",role:role,token:token}); 
+            return res.json({msg:"Login successfull",role:role,field:field,token:token}); 
             
         } else {
             res.status(401).json("Incorrect Password");
